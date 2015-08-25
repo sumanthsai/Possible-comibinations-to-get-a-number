@@ -1,12 +1,43 @@
-*.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+class Test1 {
+    static void sum1(ArrayList<Integer> numbers, int target, ArrayList<Integer> partial) {
+       int s = 0;
+       for (int x: partial) 
+			s += x;
+       if (s == target)
+            System.out.println(""+Arrays.toString(partial.toArray())+"");
+       if (s >= target)
+            return;
+       for(int i=0;i<numbers.size();i++)
+	   {
+             ArrayList<Integer> rem = new ArrayList<Integer>();
+             int n = numbers.get(i);
+             for (int j=i+1; j<numbers.size();j++)
+			{
+			 rem.add(numbers.get(j));
+			}
+             ArrayList<Integer> temp = new ArrayList<Integer>(partial);
+             temp.add(n);
+             sum1(rem,target,temp);
+       }
+    }
+    static void sum(ArrayList<Integer> numbers, int target) {
+        sum1(numbers,target,new ArrayList<Integer>());
+    }
+    public static void main(String args[]) 
+	{
+		Scanner sc=new Scanner(System.in);	
+	   String[] str=sc.nextLine().split("\\s");
+	   Integer[] arr=new Integer[str.length]; 
+	   int target=sc.nextInt();
+	   for(int i=0;i<str.length;i++)
+	   {
+		   arr[i]=Integer.parseInt(str[i]);
+	   }
+        sum(new ArrayList<Integer>(Arrays.asList(arr)),target);
+    }
+}
